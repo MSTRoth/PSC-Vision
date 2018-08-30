@@ -210,9 +210,10 @@ ggsave(paste(unique(droplevels(data.DPAP.agencies$Agency))," DPAP FY09-FY18 - bl
 
 #-----------------------------------------------------------------------------
 
-####heat map for total civilian contracts####
+####tree map for total civilian contracts####
 #data from USASpending
-
+install.packages("grDevices")
+library(grDevices)
 install.packages("treemap")
 library(treemap)
 
@@ -225,21 +226,24 @@ data17 <- data %>%
   filter(DPAP.Category != "Products") %>% 
   mutate(roundbill = round(in_billions, digits = 1))
 
-ggplot(data17, aes(area = Spend, fill = in_billions, 
-                   label = round(in_billions, digits = 1), subgroup = DPAP.Category)) +
-  geom_treemap()+
-  geom_treemap_text(colour = "white", place = "top",
-                    grow = F)+
-  geom_treemap_subgroup_text(colour = "white", place = "bottom", grow = F, min.size = 0)
+
+jpeg(filename="tree.jpeg",width=1500, height=1000)
+
+# ggplot(data17, aes(area = Spend, fill = in_billions, 
+#                    label = round(in_billions, digits = 1), subgroup = DPAP.Category)) +
+#   geom_treemap()+
+#   geom_treemap_text(colour = "white", place = "top",
+#                     grow = F)+
+#   geom_treemap_subgroup_text(colour = "white", place = "bottom", grow = F, min.size = 0)
 
 palette <- c("#1455B2", "#5887CD", "#8CA9D5", "#5EA909", "#86E377",
              "#88D822","#EDDC11","#EDC511", "#C4A82B")
 
 treemap(data17, index = c("roundbill", "DPAP.Category"), vSize = "Spend", 
         vColor = "roundbill", type = "index", title = "Civilian Services Contracts in FY18",
-        fontsize.title = 24, fontcolor.labels = c("black","black"), fontsize.labels = c(14,8), 
+        fontsize.title = 24, fontcolor.labels = c("black","black"), fontsize.labels = c(30,20), 
         fontface.labels = c("bold","bold"), bg.labels = 0, palette = rev(palette),
         align.labels = list(c("center","top"),c("center", "bottom")), lowerbound.cex.labels = .6,
         force.print.labels = T, position.legend = "none", aspRatio = 1.9)
-        
+dev.off()        
   
