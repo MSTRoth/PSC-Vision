@@ -199,16 +199,26 @@ psc<- ggplot(epa_toppsc, aes(x=0, y = sum, fill = pscf))+
                     values = brewer.pal(11, "Paired")[c(10,8,6,4,2,9,7,5,3,1)],
                     breaks = c("R499", "F108","F999","C211","R425", "C214", 
                              "R408","C219", "7030","D321"),
-                    labels = c("R499: Other Professional Services",
-                               "F108: Hazardous Substance Removal, Cleanup, and Disposal Services and Operational Support", 
-                               "F999: Other Environmental Services, Studies, and Analytical Support", 
-                               "C211: Architect - Engineer Services (Including Landscaping, Interior Layout, and Designing)", 
-                               "R425: Engineering and Technical Services", 
-                               "C214: A&E Management Engineering Services", 
-                               "R408: Program Management/Support Services", 
-                               "C219: Other Architect and Engineering Services", 
-                               "7030: Adp Software", 
-                               "D321: IT and Telecom - Help Desk ")) +
+                    labels = str_wrap(c("R499: Other Professional Services",
+                               "F108: Hazardous Substance Removal, Cleanup, and Disposal Services and Operational Support",
+                               "F999: Other Environmental Services, Studies, and Analytical Support",
+                               "C211: Architect - Engineer Services (Including Landscaping, Interior Layout, and Designing)",
+                               "R425: Engineering and Technical Services",
+                               "C214: A&E Management Engineering Services",
+                               "R408: Program Management/Support Services",
+                               "C219: Other Architect and Engineering Services",
+                               "7030: Adp Software",
+                               "D321: IT and Telecom - Help Desk "), width = 50)) +
+                    # labels = c("Other Professional Services",
+                    #            "Hazardous Substance Removal, Cleanup, and Disposal Services and Operational Support", 
+                    #            "Other Environmental Services, Studies, and Analytical Support", 
+                    #            "Architect - Engineer Services (Including Landscaping, Interior Layout, and Designing)", 
+                    #            "Engineering and Technical Services", 
+                    #            "A&E Management Engineering Services", 
+                    #            "Program Management/Support Services", 
+                    #            "Other Architect and Engineering Services", 
+                    #            "Adp Software", 
+                    #            "IT and Telecom - Help Desk ")) +
   theme_minimal()+
   theme(axis.title.x = element_blank(),
         axis.text.x = element_blank(),
@@ -218,13 +228,16 @@ psc<- ggplot(epa_toppsc, aes(x=0, y = sum, fill = pscf))+
         panel.border = element_blank(),
         panel.grid = element_blank(),
         axis.ticks = element_blank(),
-        plot.title = element_text(size = 14, face = "bold"))+
+        plot.title = element_text(size = 14, face = "bold"),
+        legend.position = "bottom", 
+        legend.title = element_blank(), legend.text = element_text(size = 18))+
+  guides(fill=guide_legend(nrow=10,byrow=TRUE))+
   labs(title = "EPA: Top 10 PSC/FSC by Spending FY17")+
   geom_label(aes(x = .25, y = cumsum(sum) - sum/2, label = paste(pscf, "\n","$", sumr, sep = "")),
-                   size = 4, fontface = "bold", show.legend = FALSE, nudge_x = 0.01, nudge_y = .5)
+                   size = 5, fontface = "bold", show.legend = FALSE, nudge_x = 0.01, nudge_y = .5)
 
-ggsave(paste("EPA top PSC by spending.jpg"), psc,
-       width = 17, height = 11, units = "in")
+ggsave(paste("EPA top PSC by spendingv2.jpg"), psc,
+       width = 9, height = 13, units = "in")
 
 # ggplot(epa_toppsc, aes(x=factor(1), y = sum, fill = psc))+
 #   # geom_bar(stat="identity", color = "black") +
