@@ -301,3 +301,78 @@ ggsave(paste("EPA top PSC by spendingv2.jpg"), psc,
 # 
 # contract_type <- fil_data %>% 
 #   group_by()
+
+
+##############################################################################
+##Top Contract vehicles####
+
+##2017
+
+EPA_2017 <- read_csv("FY2017 EPA Bgov Data.csv")
+
+
+EPA_2017_Top <- EPA_2017 %>% 
+  select(`Contract Number`, `Transaction Signed Date`, `Transaction Value`, `Contract Type`, `Contracting Title`, `Funding Agency`, `Sum of Contract's Transactions`, `Fiscal Year`) %>% 
+  group_by(`Contracting Title`) %>% 
+  summarise(sum = sum(`Transaction Value`)/1000000) %>% 
+  top_n(10) %>% 
+  arrange(desc(sum))
+
+order <- EPA_2017_Top$`Contracting Title`
+
+
+
+EPA_2017_Top$"Contracting Order" <- 
+  factor(EPA_2017_Top$`Contracting Title`, levels = (order))
+
+EPA_2017_Top$color <- "blue"
+
+ggplot(EPA_2017_Top, aes(x = `Contracting Order`, 
+                                y = `sum`, fill = color))+
+  geom_bar(stat = "identity", position = "dodge")+
+  labs(y = "Total Transaction Value (in millions)", title = "Top EPA Contract Vehicles FY17")+
+  theme(axis.text.x = element_text(size=12, angle = 45), axis.title.y = element_blank(),
+        axis.text.y = element_text(size = 12), 
+        axis.title.x = element_text(size = 12, face = "bold"),
+        legend.position = "none", title = element_text(size = 28))+
+  scale_x_discrete(labels = str_wrap(rev(EPA_2017_Top$`Contracting Order`), width = 40),
+                   limits = rev(levels(EPA_2017_Top$`Contracting Order`)))+
+  coord_flip()
+
+options(scipen = 999)
+
+
+
+
+##2018
+
+EPA_2017 <- read_csv("FY2018 EPA Bgov Data.csv")
+
+
+EPA_2017_Top <- EPA_2017 %>% 
+  select(`Contract Number`, `Transaction Signed Date`, `Transaction Value`, `Contract Type`, `Contracting Title`, `Funding Agency`, `Sum of Contract's Transactions`, `Fiscal Year`) %>% 
+  group_by(`Contracting Title`) %>% 
+  summarise(sum = sum(`Transaction Value`)/1000000) %>% 
+  top_n(10) %>% 
+  arrange(desc(sum))
+
+order <- EPA_2017_Top$`Contracting Title`
+
+
+
+EPA_2017_Top$"Contracting Order" <- 
+  factor(EPA_2017_Top$`Contracting Title`, levels = (order))
+
+EPA_2017_Top$color <- "blue"
+
+ggplot(EPA_2017_Top, aes(x = `Contracting Order`, 
+                         y = `sum`, fill = color))+
+  geom_bar(stat = "identity", position = "dodge")+
+  labs(y = "Total Transaction Value (in millions)", title = "Top EPA Contract Vehicles FY18")+
+  theme(axis.text.x = element_text(size=12, angle = 45), axis.title.y = element_blank(),
+        axis.text.y = element_text(size = 12), 
+        axis.title.x = element_text(size = 12, face = "bold"),
+        legend.position = "none", title = element_text(size = 28))+
+  scale_x_discrete(labels = str_wrap(rev(EPA_2017_Top$`Contracting Order`), width = 40),
+                   limits = rev(levels(EPA_2017_Top$`Contracting Order`)))+
+  coord_flip()
