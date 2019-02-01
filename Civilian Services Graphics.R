@@ -78,70 +78,70 @@ plot <- ggplot(data.DPAP.agencies, aes(fill = fiscal_year,
 ggsave(paste(unique(droplevels(data.DPAP.agencies$Agency))," DPAP FY09-FY18.jpg", sep = ""), plot,
          width = 15, height = 8, units = "in") 
 
-################all FY one color####
-data.DPAP.agencies <- data %>%
-  dplyr::rename("DPAP_Category" = DPAP.Category, 
-                "FY18" = FY18..as.of.8.27.)%>% 
-  gather("fiscal_year","amount",4:13) %>% 
-  filter(Agency == "Department of Homeland Security (DHS)") %>%
-  #filter(Agency == "Department of Commerce (DOC)") %>%
-  # filter(Agency == "Department of Energy (DOE)") %>%
-  # filter(Agency == "Department of Justice (DOJ)") %>%
-  #filter(Agency == "Department of State (DOS)") %>%
-  #filter(Agency == "Department of Transportation (DOT)") %>%
-  #filter(Agency == "Department of Health and Human Services (HHS)") %>%
-  # filter(Agency == "National Aeronautics and Space Administration (NASA)") %>%
-  #filter(Agency == "Department of Treasury (TREAS)") %>%
-  #filter(Agency == "Agency for International Development (USAID)") %>%
-  #filter(Agency == "Department of Agriculture (USDA)") %>%              
-  #filter(Agency == "Department of Veterans Affairs (VA)") %>%
-dplyr::mutate(total_transaction_value = amount/1000000000) 
-# filter(fiscal_year == "FY14" |fiscal_year == "FY15"|fiscal_year == "FY16"|fiscal_year == "FY17") %>% 
-
-
-plot <- ggplot(data.DPAP.agencies, aes(fill = fiscal_year,
-                                       x = fiscal_year,
-                                       y = total_transaction_value))+
-  geom_bar(stat = "identity", position = position_dodge()) +
-  #geom_text(aes(label = round(total_transaction_value, digits = 1), vjust = 1.5), size = 3)+
-  scale_fill_manual("Fiscal Year", values = c("FY09" = "steelblue1",
-                                              "FY10" = "steelblue1",
-                                              "FY11" = "steelblue1",
-                                              "FY12" = "steelblue1",
-                                              "FY13" = "steelblue1",
-                                              "FY14" = "steelblue1", 
-                                              "FY15" = "steelblue1", 
-                                              "FY16" = "steelblue1", 
-                                              "FY17" = "steelblue1", 
-                                              "FY18" = "steelblue1")) +
-  labs(y = "Contract Obligations (in Billions)", title = unique(droplevels(data.DPAP.agencies$Agency)), x = NULL)+
-  facet_grid(~DPAP_Category, labeller = label_wrap_gen(10), scales = "free")+
-  theme(plot.title = element_text(hjust = 0.5, size = 36, face = "bold"),
-        axis.text.x = element_blank(),
-        axis.ticks.x = element_blank(),
-        panel.background = element_blank(),
-        plot.background = element_rect(colour = NA, fill = NA),
-        # panel.border = element_rect(colour = NA, fill = NA),
-        axis.title = element_text(face = "bold",size = rel(1)),
-        axis.title.y = element_text(angle=90,vjust =2),
-        axis.line = element_line(colour="#bcbcbc"),
-        axis.ticks.y = element_line(),
-        panel.grid.major = element_line(colour="#f0f0f0"),
-        panel.grid.minor = element_line(colour="#f0f0f0"),
-        # legend.key = element_rect(colour = NA),
-        # legend.position = "bottom",
-        # legend.direction = "horizontal",
-        # legend.key.size= unit(0.2, "cm"),
-        # legend.margin = unit(0, "cm"),
-        legend.title = element_text(face="bold"),
-        #plot.margin=unit(c(10,5,5,5),"lines"),
-        strip.background=element_rect(colour="#bcbcbc",fill="#f0f0f0"),
-        strip.text = element_text(face="bold"),
-        panel.border = element_rect(color = "#bcbcbc", fill = NA, size = 1))+
-  guides(fill = FALSE)
-
-ggsave(paste(unique(droplevels(data.DPAP.agencies$Agency))," DPAP FY09-FY18 - all blue.jpg", sep = ""), plot,
-       width = 15, height = 8, units = "in") 
+# ################all FY one color####
+# data.DPAP.agencies <- data %>%
+#   dplyr::rename("DPAP_Category" = DPAP.Category, 
+#                 "FY18" = FY18..as.of.8.27.)%>% 
+#   gather("fiscal_year","amount",4:13) %>% 
+#   filter(Agency == "Department of Homeland Security (DHS)") %>%
+#   #filter(Agency == "Department of Commerce (DOC)") %>%
+#   # filter(Agency == "Department of Energy (DOE)") %>%
+#   # filter(Agency == "Department of Justice (DOJ)") %>%
+#   #filter(Agency == "Department of State (DOS)") %>%
+#   #filter(Agency == "Department of Transportation (DOT)") %>%
+#   #filter(Agency == "Department of Health and Human Services (HHS)") %>%
+#   # filter(Agency == "National Aeronautics and Space Administration (NASA)") %>%
+#   #filter(Agency == "Department of Treasury (TREAS)") %>%
+#   #filter(Agency == "Agency for International Development (USAID)") %>%
+#   #filter(Agency == "Department of Agriculture (USDA)") %>%              
+#   #filter(Agency == "Department of Veterans Affairs (VA)") %>%
+# dplyr::mutate(total_transaction_value = amount/1000000000) 
+# # filter(fiscal_year == "FY14" |fiscal_year == "FY15"|fiscal_year == "FY16"|fiscal_year == "FY17") %>% 
+# 
+# 
+# plot <- ggplot(data.DPAP.agencies, aes(fill = fiscal_year,
+#                                        x = fiscal_year,
+#                                        y = total_transaction_value))+
+#   geom_bar(stat = "identity", position = position_dodge()) +
+#   #geom_text(aes(label = round(total_transaction_value, digits = 1), vjust = 1.5), size = 3)+
+#   scale_fill_manual("Fiscal Year", values = c("FY09" = "steelblue1",
+#                                               "FY10" = "steelblue1",
+#                                               "FY11" = "steelblue1",
+#                                               "FY12" = "steelblue1",
+#                                               "FY13" = "steelblue1",
+#                                               "FY14" = "steelblue1", 
+#                                               "FY15" = "steelblue1", 
+#                                               "FY16" = "steelblue1", 
+#                                               "FY17" = "steelblue1", 
+#                                               "FY18" = "steelblue1")) +
+#   labs(y = "Contract Obligations (in Billions)", title = unique(droplevels(data.DPAP.agencies$Agency)), x = NULL)+
+#   facet_grid(~DPAP_Category, labeller = label_wrap_gen(10), scales = "free")+
+#   theme(plot.title = element_text(hjust = 0.5, size = 36, face = "bold"),
+#         axis.text.x = element_blank(),
+#         axis.ticks.x = element_blank(),
+#         panel.background = element_blank(),
+#         plot.background = element_rect(colour = NA, fill = NA),
+#         # panel.border = element_rect(colour = NA, fill = NA),
+#         axis.title = element_text(face = "bold",size = rel(1)),
+#         axis.title.y = element_text(angle=90,vjust =2),
+#         axis.line = element_line(colour="#bcbcbc"),
+#         axis.ticks.y = element_line(),
+#         panel.grid.major = element_line(colour="#f0f0f0"),
+#         panel.grid.minor = element_line(colour="#f0f0f0"),
+#         # legend.key = element_rect(colour = NA),
+#         # legend.position = "bottom",
+#         # legend.direction = "horizontal",
+#         # legend.key.size= unit(0.2, "cm"),
+#         # legend.margin = unit(0, "cm"),
+#         legend.title = element_text(face="bold"),
+#         #plot.margin=unit(c(10,5,5,5),"lines"),
+#         strip.background=element_rect(colour="#bcbcbc",fill="#f0f0f0"),
+#         strip.text = element_text(face="bold"),
+#         panel.border = element_rect(color = "#bcbcbc", fill = NA, size = 1))+
+#   guides(fill = FALSE)
+# 
+# ggsave(paste(unique(droplevels(data.DPAP.agencies$Agency))," DPAP FY09-FY18 - all blue.jpg", sep = ""), plot,
+#        width = 15, height = 8, units = "in") 
 
 #####color spectrum FY###########
 
