@@ -3,6 +3,28 @@
 ##Checking BGOV####
 setwd("C:/Users/Roth/Documents/Vision/2019/Civilian Services/")
 
+
+
+#FY19 - civ####
+BGov_estimates_PSC_19 <- read_csv("C:/Users/Roth/Documents/Vision/2019/Civilian Services/19 budget BGov estimate PSC justcivmaybe.csv")
+dpap <- read_csv("~/Reference Tables/DPAP Crosswalk.csv")
+
+BGov_estimates_PSC_19$fiscal_year <- 2019
+
+dpap_estimates_19 <- BGov_estimates_PSC_19 %>% 
+  left_join(select(dpap, c("PSC Code", DPAP, "P.S")), by = c(PSC = "PSC Code")) %>% 
+  mutate(DPAP_category = ifelse(P.S == "Products", "Products", DPAP)) %>% 
+  #filter(P.S != "Products") %>% 
+  #filter(fiscal_year != 2019) %>% 
+  filter(PSC != "UNKN") %>% 
+  filter(!is.na(Estimate)) %>% 
+  group_by(DPAP_category, fiscal_year) %>%    ##### DPAP, fiscal_year or PSC Code, PSC Description, fiscal_year
+  summarise(sum = sum(Estimate))
+
+
+
+
+
 #FY19####
 BGov_estimates_PSC_19 <- read_csv("C:/Users/Roth/Documents/Vision/2019/Civilian Services/19 budget BGov estimate PSC.csv")
 dpap <- read_csv("~/Reference Tables/DPAP Crosswalk.csv")
